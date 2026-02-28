@@ -138,7 +138,7 @@ def render_widget_html(
     <div class=\"acrw-widget\" role=\"group\" aria-label=\"AtCoder rating widget\">
       <a class=\"acrw-link-all\" href=\"{user_url}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open AtCoder user page\"></a>
 
-      <div class=\"acrw-header\">{username}</div>
+      <div class=\"acrw-header {alg_class}\">{username}</div>
 
       <div class=\"acrw-ratings\">
         <div class=\"acrw-block\" aria-label=\"Algorithm rating\">
