@@ -163,6 +163,7 @@ def render_widget_html(
 	updated_at_jst = updated_at_utc.astimezone(JST)
 	updated_str = updated_at_jst.strftime("%Y-%m-%d %H:%M JST")
 	user_url = build_user_url(username, None)
+	about_url = "https://github.com/r-1317/AtCoder-Rating-Widget"
 	heur_url = build_user_url(username, "heuristic")
 
 	alg_class = rating_to_class(algorithm_rating)
@@ -184,15 +185,19 @@ def render_widget_html(
   </head>
   <body>
     <div class=\"acrw-widget\" role=\"group\" aria-label=\"AtCoder rating widget\">
-      <a class=\"acrw-link-all\" href=\"{user_url}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open AtCoder user page\"></a>
 
-			<div class=\"acrw-header {alg_class}\">{chevron_html}{username}</div>
+			<a class=\"acrw-user-link\" href=\"{user_url}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open AtCoder user page\">
+				<div class=\"acrw-header {alg_class}\">{chevron_html}{username}</div>
+			</a>
 
       <div class=\"acrw-ratings\">
-        <div class=\"acrw-block\" aria-label=\"Algorithm rating\">
-          <span class=\"acrw-label\">Algorithm</span>
-          <span class=\"acrw-rating {alg_class}\">{alg_text}</span>
-        </div>
+
+			<a class=\"acrw-alg-link\" href=\"{user_url}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open AtCoder algorithm page\">
+				<div class=\"acrw-block\" aria-label=\"Algorithm rating\">
+				  <span class=\"acrw-label\">Algorithm</span>
+				  <span class=\"acrw-rating {alg_class}\">{alg_text}</span>
+				</div>
+			</a>
 
         <a class=\"acrw-heur-link\" href=\"{heur_url}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open AtCoder heuristic page\">
           <div class=\"acrw-block\" aria-label=\"Heuristic rating\">
@@ -202,7 +207,11 @@ def render_widget_html(
         </a>
       </div>
 
-      <div class=\"acrw-updated\">更新日時: {updated_str}</div>
+
+			<div class=\"acrw-updated\">
+				<span>更新日時: {updated_str}</span>
+				<a class=\"acrw-about\" href=\"{about_url}\" target=\"_blank\" rel=\"noopener noreferrer\">About</a>
+			</div>
     </div>
   </body>
 </html>
@@ -211,6 +220,7 @@ def render_widget_html(
 		username=username,
 		user_url=user_url,
 		heur_url=heur_url,
+		about_url=about_url,
 		alg_class=alg_class,
 		heur_class=heur_class,
 		alg_text=rating_text(algorithm_rating),

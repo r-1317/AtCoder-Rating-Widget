@@ -5,6 +5,13 @@
 	--acrw-bg: #ffffff;
 }
 
+html,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
 .acrw-widget {
 	position: relative;
 	box-sizing: border-box;
@@ -16,13 +23,6 @@
 	color: var(--acrw-text);
 	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
 	line-height: 1.25;
-}
-
-.acrw-link-all {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	text-decoration: none;
 }
 
 .acrw-header {
@@ -58,20 +58,45 @@
 }
 
 .acrw-updated {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
 	margin-top: 10px;
 	font-size: 11px;
 	color: var(--acrw-muted);
 }
 
+.acrw-about {
+	display: inline;
+	margin-left: 8px;
+	font-size: 11px;
+	color: var(--acrw-muted);
+	text-decoration: none;
+}
+
+.acrw-about:visited {
+	color: var(--acrw-muted);
+}
+
+.acrw-about:hover {
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.acrw-user-link,
+.acrw-alg-link,
 .acrw-heur-link {
 	position: relative;
-	z-index: 2;
+	z-index: 1;
 	display: block;
 	color: inherit;
 	text-decoration: none;
 }
 
-.acrw-heur-link:focus-visible {
+.acrw-user-link:focus-visible,
+.acrw-alg-link:focus-visible,
+.acrw-heur-link:focus-visible,
+.acrw-about:focus-visible {
 	outline: 2px solid var(--acrw-border);
 	outline-offset: 2px;
 }

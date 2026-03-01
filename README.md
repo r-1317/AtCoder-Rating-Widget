@@ -1,6 +1,6 @@
 # AtCoder Rating Widget
 
-<img src="./img/widget-saple.png" width="422" alt="生成されるウィジェットの例">
+<img src="./img/widget-saple.png" width="396" alt="生成されるウィジェットの例">
 
 ## 概要
 
@@ -59,15 +59,10 @@ GitHub のリポジトリ画面から、以下を設定します。
 生成されたウィジェットは GitHub Pages 上で配信されます。任意の HTML に、以下のように埋め込めます。
 
 ```html
-<object data="https://{あなたのgithubユーザ名}.github.io/AtCoder-Rating-Widget/widgets/{AtCoderユーザ名}.html" type="text/html" width="320" height="160"></object>
+<object data="https://{あなたのgithubユーザ名}.github.io/AtCoder-Rating-Widget/widgets/{AtCoderユーザ名}.html" type="text/html" width="320" height="140"></object>
 ```
-
-`width`と`height`は環境によって最適な値が異なりますので、適宜調整してお使いください。
 
 ## ライセンス
 
-このソフトウェアは、[MIT License](https://opensource.org/license/mit/)の下で配布されています。詳細は[LICENSE](./LICENSE)を参照してください。
+このソフトウェアは、[MIT License](./LICENSE) の下で配布されております。
 
-<!-- --- -->
-
-Copyright © 2026 [r-1317](https://github.com/r-1317) All Rights Reserved.
