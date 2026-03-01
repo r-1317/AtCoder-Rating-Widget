@@ -86,15 +86,56 @@ def rating_to_class(rating: int | None) -> str:
 		return "acrw-rating--green"
 	if rating >= 400:
 		return "acrw-rating--brown"
-	if rating >= 1:
+	if rating >= 0:
 		return "acrw-rating--gray"
-	if rating == 0:
-		return "acrw-rating--black"
 	return "acrw-rating--red"
 
 
 def rating_text(rating: int | None) -> str:
 	return "No Rating" if rating is None else str(rating)
+
+
+def rating_to_chevron_src(rating: int | None, chevrons_href: str) -> str | None:
+	"""Return chevron image src for the given rating.
+
+	Rules (per 何がしたいか.md):
+	- Show chevrons for gray/brown/green/cyan/blue/yellow/orange only.
+	- Do not show for black (None/0) and red (>=2800 or out-of-range treated as red).
+	- Increment chevron number every 100 rating points within each color band.
+	"""
+	if rating is None:
+		return None
+	if rating < 0:
+		return None
+	if rating >= 2800:
+		return None
+
+	color: str
+	base: int
+	if rating >= 2400:
+		color, base = "orange", 2400
+	elif rating >= 2000:
+		color, base = "yellow", 2000
+	elif rating >= 1600:
+		color, base = "blue", 1600
+	elif rating >= 1200:
+		color, base = "cyan", 1200
+	elif rating >= 800:
+		color, base = "green", 800
+	elif rating >= 400:
+		color, base = "brown", 400
+	elif rating >= 0:
+		# Gray band is 0..399.
+		color, base = "gray", 0
+	else:
+		return None
+
+	number = (rating - base) // 100 + 1
+	if number < 1:
+		return None
+	if number > 4:
+		number = 4
+	return f"{chevrons_href}/user-{color}-{number}.png"
 
 
 def build_history_url(username: str, contest_type: str | None) -> str:
@@ -117,6 +158,7 @@ def render_widget_html(
 	heuristic_rating: int | None,
 	updated_at_utc: dt.datetime,
 	css_href: str,
+	chevrons_href: str,
 ) -> str:
 	updated_at_jst = updated_at_utc.astimezone(JST)
 	updated_str = updated_at_jst.strftime("%Y-%m-%d %H:%M JST")
@@ -125,6 +167,12 @@ def render_widget_html(
 
 	alg_class = rating_to_class(algorithm_rating)
 	heur_class = rating_to_class(heuristic_rating)
+	chevron_src = rating_to_chevron_src(algorithm_rating, chevrons_href)
+	chevron_html = (
+		f'<img class="acrw-chevron" src="{chevron_src}" alt="" width="16" height="16" /> '
+		if chevron_src
+		else ""
+	)
 
 	return """<!doctype html>
 <html lang=\"ja\">
@@ -138,7 +186,7 @@ def render_widget_html(
     <div class=\"acrw-widget\" role=\"group\" aria-label=\"AtCoder rating widget\">
       <a class=\"acrw-link-all\" href=\"{user_url}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Open AtCoder user page\"></a>
 
-      <div class=\"acrw-header {alg_class}\">{username}</div>
+			<div class=\"acrw-header {alg_class}\">{chevron_html}{username}</div>
 
       <div class=\"acrw-ratings\">
         <div class=\"acrw-block\" aria-label=\"Algorithm rating\">
@@ -168,6 +216,7 @@ def render_widget_html(
 		alg_text=rating_text(algorithm_rating),
 		heur_text=rating_text(heuristic_rating),
 		updated_str=updated_str,
+		chevron_html=chevron_html,
 	)
 
 
@@ -179,6 +228,11 @@ def main() -> int:
 		"--css-href",
 		default="../widget.css",
 		help="CSS href written into widget HTML (relative to each widget file)",
+	)
+	parser.add_argument(
+		"--chevrons-href",
+		default="../chevrons",
+		help="Chevrons directory href used in widget HTML (relative to each widget file)",
 	)
 	parser.add_argument(
 		"--sleep-seconds",
@@ -219,6 +273,7 @@ def main() -> int:
 			heuristic_rating=heur_rating,
 			updated_at_utc=updated_at_utc,
 			css_href=args.css_href,
+			chevrons_href=args.chevrons_href,
 		)
 
 		(out_dir / safe_widget_filename(username)).write_text(html, encoding="utf-8")
