@@ -9,8 +9,6 @@ AtCoder のユーザーページから取得できる履歴 JSON を元に、ユ
 - HTML に埋め込み可能（`<object>` 等）
 - Algorithm / Heuristic の両方に対応
 - 毎週日曜日と月曜日の深夜(日本時間)に Gihub Actions でレーティングを自動更新
-- ウィジェット全体クリックで AtCoder のユーザーページへ遷移
-- Heuristic 部分クリックで `contestType=heuristic` のページへ遷移
 
 ## 使い方
 
@@ -61,6 +59,9 @@ GitHub のリポジトリ画面から、以下を設定します。
 ```html
 <object data="https://{あなたのgithubユーザ名}.github.io/AtCoder-Rating-Widget/widgets/{AtCoderユーザ名}.html" type="text/html" width="320" height="140"></object>
 ```
+
+## レーティングの更新について
+何も操作する必要はございません。あなたがクローンしたリポジトリがGitHubに公開されているならば、更新は定期的に実行されるはずです。
 
 ## ライセンス
 
