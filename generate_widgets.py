@@ -202,7 +202,7 @@ def render_widget_html(
         </a>
       </div>
 
-      <div class=\"acrw-updated\">Updated: {updated_str}</div>
+      <div class=\"acrw-updated\">更新日時: {updated_str}</div>
     </div>
   </body>
 </html>
