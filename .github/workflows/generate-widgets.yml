@@ -2,7 +2,7 @@ name: Generate AtCoder rating widgets
 
 on:
   schedule:
-    - cron: "37 18 * * *" # 毎日 日本時間で03:37
+    - cron: "37 18 * * 0,6" # UTCの土日(0=Sun, 6=Sat)のみ / 日本時間だと日・月の03:37
   workflow_dispatch:
 
 permissions:

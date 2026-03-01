@@ -8,7 +8,7 @@ AtCoder のユーザーページから取得できる履歴 JSON を元に、ユ
 
 - HTML に埋め込み可能（`<object>` 等）
 - Algorithm / Heuristic の両方に対応
-- 1日に一度 Gihub Actions でレーティングを自動更新
+- 毎週日曜日と月曜日の深夜(日本時間)に Gihub Actions でレーティングを自動更新
 - ウィジェット全体クリックで AtCoder のユーザーページへ遷移
 - Heuristic 部分クリックで `contestType=heuristic` のページへ遷移
 
