@@ -7,6 +7,7 @@ import datetime as dt
 import json
 import re
 import time
+import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -19,6 +20,10 @@ USER_PAGE = "/users/{username}"
 
 JST = dt.timezone(dt.timedelta(hours=9), name="JST")
 
+def warn(message: str) -> None:
+	yellow = "\033[33m"
+	end_color = "\033[0m"
+	print(f"{yellow}Warning:{end_color} {message}", file=sys.stderr)
 
 def load_users(users_file: Path) -> list[str]:
 	if not users_file.exists():
@@ -26,10 +31,13 @@ def load_users(users_file: Path) -> list[str]:
 
 	users: list[str] = []
 	for raw_line in users_file.read_text(encoding="utf-8").splitlines():
-		line = raw_line.strip()
+		# "#"以降の文字列をコメントとして扱うため、最も前にある"#"から先を削除する。
+		line = raw_line.split("#", 1)[0].strip()
 		if not line:
 			continue
-		if line.startswith("#"):
+		# AtCoderのユーザ名は3 文字以上 16 文字以下の半角英数字とアンダースコアのみで構成されるため、これら以外の文字が含まれる行は無視する。
+		if not re.fullmatch(r"[A-Za-z0-9_]{3,16}", line):
+			warn(f"Invalid username skipped: \"{line}\"")
 			continue
 		users.append(line)
 	return users
@@ -47,7 +55,7 @@ def fetch_json(url: str) -> Any:
 	req = urllib.request.Request(
 		url,
 		headers={
-			"User-Agent": "AtCoder-Rating-Widget/1.0 (+https://github.com/)",
+			"User-Agent": "AtCoder-Rating-Widget/1.0 (+https://github.com/r-1317/AtCoder-Rating-Widget)",
 			"Accept": "application/json",
 		},
 	)
